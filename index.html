@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NovaBanc — Banking System</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- BACKGROUND TEXTURE -->
+  <div class="bg-grid"></div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast"></div>
+
+  <!-- ============ LOGIN PAGE ============ -->
+  <div id="page-login" class="page active">
+    <div class="login-split">
+      <div class="login-brand">
+        <div class="brand-logo">N</div>
+        <h1 class="brand-name">NovaBanc</h1>
+        <p class="brand-tagline">Secure. Simple. Sophisticated.</p>
+        <div class="brand-stats">
+          <div class="stat"><span class="stat-val">256-bit</span><span class="stat-label">Encryption</span></div>
+          <div class="stat"><span class="stat-val">24/7</span><span class="stat-label">Access</span></div>
+          <div class="stat"><span class="stat-val">₹500</span><span class="stat-label">Min Balance</span></div>
+        </div>
+      </div>
+      <div class="login-form-wrap">
+        <div class="login-card">
+          <h2>Welcome back</h2>
+          <p class="sub">Sign in to your account</p>
+          <div class="field">
+            <label>Account Number</label>
+            <input type="number" id="login-acc" placeholder="Enter account number" />
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="password" id="login-pass" placeholder="••••••••" />
+          </div>
+          <button class="btn-primary" onclick="doLogin()">Sign In →</button>
+          <div class="divider">or</div>
+          <button class="btn-ghost" onclick="showPage('page-create')">Create New Account</button>
+          <button class="btn-ghost admin-btn" onclick="showPage('page-admin-login')">Admin Portal</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CREATE ACCOUNT PAGE ============ -->
+  <div id="page-create" class="page">
+    <div class="inner-page">
+      <div class="page-header">
+        <button class="back-btn" onclick="showPage('page-login')">← Back</button>
+        <h2>Open an Account</h2>
+      </div>
+      <div class="card-form">
+        <div class="field">
+          <label>Full Name</label>
+          <input type="text" id="create-name" placeholder="Your full name" />
+        </div>
+        <div class="field">
+          <label>Account Number</label>
+          <input type="number" id="create-acc" placeholder="Choose a unique number" />
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="create-pass" placeholder="Create a password" />
+        </div>
+        <button class="btn-primary" onclick="createAccount()">Create Account →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ DASHBOARD ============ -->
+  <div id="page-dashboard" class="page">
+    <div class="dashboard-layout">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <div class="brand-logo sm">N</div>
+          <span>NovaBanc</span>
+        </div>
+        <nav class="sidebar-nav">
+          <a class="nav-item active" onclick="showDash('dash-home')" data-tab="dash-home">
+            <span class="nav-icon">◈</span> Dashboard
+          </a>
+          <a class="nav-item" onclick="showDash('dash-deposit')" data-tab="dash-deposit">
+            <span class="nav-icon">↓</span> Deposit
+          </a>
+          <a class="nav-item" onclick="showDash('dash-withdraw')" data-tab="dash-withdraw">
+            <span class="nav-icon">↑</span> Withdraw
+          </a>
+          <a class="nav-item" onclick="showDash('dash-transfer')" data-tab="dash-transfer">
+            <span class="nav-icon">⇄</span> Transfer
+          </a>
+          <a class="nav-item" onclick="showDash('dash-history')" data-tab="dash-history">
+            <span class="nav-icon">≡</span> History
+          </a>
+          <a class="nav-item" onclick="showDash('dash-update')" data-tab="dash-update">
+            <span class="nav-icon">✎</span> Update
+          </a>
+          <a class="nav-item danger" onclick="confirmDelete()">
+            <span class="nav-icon">⊗</span> Delete Account
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <button class="logout-btn" onclick="doLogout()">Sign Out</button>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="dash-main">
+
+        <!-- HOME TAB -->
+        <div id="dash-home" class="dash-tab active">
+          <div class="dash-greeting">
+            <div>
+              <p class="greeting-label">Good day,</p>
+              <h2 id="dash-name">User</h2>
+            </div>
+            <div class="acc-badge">Account #<span id="dash-accno"></span></div>
+          </div>
+          <div class="balance-card">
+            <p class="balance-label">Available Balance</p>
+            <h1 class="balance-amount" id="dash-balance">₹0.00</h1>
+            <div class="balance-sub">Minimum balance: ₹500</div>
+          </div>
+          <div class="quick-actions">
+            <div class="quick-btn" onclick="showDash('dash-deposit')">
+              <span>↓</span> Deposit
+            </div>
+            <div class="quick-btn" onclick="showDash('dash-withdraw')">
+              <span>↑</span> Withdraw
+            </div>
+            <div class="quick-btn" onclick="showDash('dash-transfer')">
+              <span>⇄</span> Transfer
+            </div>
+            <div class="quick-btn" onclick="showDash('dash-history')">
+              <span>≡</span> History
+            </div>
+          </div>
+          <div class="recent-wrap">
+            <h3>Recent Transactions</h3>
+            <div id="recent-list" class="txn-list"></div>
+          </div>
+        </div>
+
+        <!-- DEPOSIT TAB -->
+        <div id="dash-deposit" class="dash-tab">
+          <div class="tab-header">
+            <h2>Deposit Money</h2>
+            <p>Add funds to your account</p>
+          </div>
+          <div class="card-form narrow">
+            <div class="field">
+              <label>Amount (₹)</label>
+              <input type="number" id="dep-amount" placeholder="Enter amount" min="1" />
+            </div>
+            <button class="btn-primary" onclick="depositMoney()">Deposit →</button>
+          </div>
+        </div>
+
+        <!-- WITHDRAW TAB -->
+        <div id="dash-withdraw" class="dash-tab">
+          <div class="tab-header">
+            <h2>Withdraw Money</h2>
+            <p>Minimum balance of ₹500 must be maintained</p>
+          </div>
+          <div class="card-form narrow">
+            <div class="field">
+              <label>Amount (₹)</label>
+              <input type="number" id="with-amount" placeholder="Enter amount" min="1" />
+            </div>
+            <button class="btn-primary" onclick="withdrawMoney()">Withdraw →</button>
+          </div>
+        </div>
+
+        <!-- TRANSFER TAB -->
+        <div id="dash-transfer" class="dash-tab">
+          <div class="tab-header">
+            <h2>Transfer Money</h2>
+            <p>Send funds to another account</p>
+          </div>
+          <div class="card-form narrow">
+            <div class="field">
+              <label>Receiver Account Number</label>
+              <input type="number" id="trans-to" placeholder="Receiver's account number" />
+            </div>
+            <div class="field">
+              <label>Amount (₹)</label>
+              <input type="number" id="trans-amount" placeholder="Enter amount" min="1" />
+            </div>
+            <button class="btn-primary" onclick="transferMoney()">Transfer →</button>
+          </div>
+        </div>
+
+        <!-- HISTORY TAB -->
+        <div id="dash-history" class="dash-tab">
+          <div class="tab-header">
+            <h2>Transaction History</h2>
+            <p>All your account activity</p>
+          </div>
+          <div id="history-list" class="txn-list full"></div>
+        </div>
+
+        <!-- UPDATE TAB -->
+        <div id="dash-update" class="dash-tab">
+          <div class="tab-header">
+            <h2>Update Account</h2>
+            <p>Change your name or password</p>
+          </div>
+          <div class="card-form narrow">
+            <div class="field">
+              <label>New Name</label>
+              <input type="text" id="upd-name" placeholder="Enter new name" />
+            </div>
+            <div class="field">
+              <label>New Password</label>
+              <input type="password" id="upd-pass" placeholder="Enter new password" />
+            </div>
+            <button class="btn-primary" onclick="updateAccount()">Update →</button>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ============ ADMIN LOGIN ============ -->
+  <div id="page-admin-login" class="page">
+    <div class="inner-page center">
+      <div class="login-card">
+        <button class="back-btn" onclick="showPage('page-login')">← Back</button>
+        <h2>Admin Portal</h2>
+        <p class="sub">Restricted access</p>
+        <div class="field">
+          <label>Admin Password</label>
+          <input type="password" id="admin-pass" placeholder="••••••••" />
+        </div>
+        <button class="btn-primary" onclick="adminLogin()">Access Admin →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ADMIN DASHBOARD ============ -->
+  <div id="page-admin" class="page">
+    <div class="inner-page">
+      <div class="page-header">
+        <button class="back-btn" onclick="showPage('page-login')">← Sign Out</button>
+        <h2>All Accounts</h2>
+        <span class="admin-badge">ADMIN</span>
+      </div>
+      <div id="admin-accounts" class="accounts-grid"></div>
+    </div>
+  </div>
+
+  <!-- ============ CONFIRM MODAL ============ -->
+  <div id="modal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <h3 id="modal-title">Confirm Action</h3>
+      <p id="modal-msg">Are you sure?</p>
+      <div class="modal-actions">
+        <button class="btn-ghost" onclick="closeModal()">Cancel</button>
+        <button class="btn-danger" id="modal-confirm">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

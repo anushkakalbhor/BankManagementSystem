@@ -1,2 +1,2 @@
-# BankManagementSystem
-It is a mini Bank
+# Bank_Management_System
+PSP Project

@@ -1,0 +1,7 @@
+Account: 12345 | Deposited | Amount: 1200.00 | Thu May 07 17:39:19 2026
+Account: 12345 | Withdrawn | Amount: 100.00 | Thu May 07 17:39:52 2026
+Account: 111 | Deposited | Amount: 5000.00 | Fri May 08 11:33:56 2026
+Account: 111 | Withdrawn | Amount: 89.00 | Fri May 08 11:34:10 2026
+Account: 121 | Deposited | Amount: 5000.00 | Fri May 08 12:13:48 2026
+Account: 121 | Withdrawn | Amount: 1000.00 | Fri May 08 12:13:58 2026
+Account: 121 | Transferred | Amount: 500.00 | Fri May 08 12:14:14 2026
