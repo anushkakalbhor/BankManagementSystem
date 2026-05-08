@@ -336,8 +336,11 @@ It is a simulation of banking operations and is not intended for real financial 
 
 # 👨‍💻 Contributors
 
-- Project Team Members
-- PSP Course Students
+- Anushka Kalbhor
+- Anvi Sharma
+- Anuradha Sawant
+- Gayatri Aradhye
+- Anuj Bhandwalkar
 
 ---
 
@@ -345,8 +348,4 @@ It is a simulation of banking operations and is not intended for real financial 
 
 This project is intended for academic and learning purposes.
 
----
 
-# ⭐ Support
-
-If you found this project useful, consider giving the repository a ⭐ on GitHub.
