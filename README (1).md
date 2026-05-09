@@ -105,7 +105,6 @@ bank.exe
 | Admin Password | `admin123` |
 | User Password | Set during account creation |
 
----
 
 ## 📌 Concepts Used (C)
 
@@ -116,10 +115,8 @@ bank.exe
 - Command-line arguments (`argc`, `argv`)
 - String operations (`strcmp`, `strcpy`, `strstr`)
 
----
+Author
+Anushka Kalbhor 
+B.Tech - Computer Science and Engineering in AIML
+Github - anushkakalbhor
 
-## 👨‍💻 Author
-
-**Your Name**  
-B.Tech / Diploma — Computer Engineering  
-[GitHub](https://github.com/YOUR_USERNAME)
