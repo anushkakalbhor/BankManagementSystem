@@ -93,18 +93,24 @@ async function createAccount() {
   const name = document.getElementById("create-name").value.trim().replace(/ /g, "_");
   const acc_no = parseInt(document.getElementById("create-acc").value);
   const password = document.getElementById("create-pass").value.trim();
+  const initial_deposit = parseFloat(document.getElementById("create-deposit").value);
 
-  if (!name || !acc_no || !password) {
+  if (!name || !acc_no || !password || !initial_deposit) {
     showToast("All fields are required.", "error"); return;
   }
 
-  const data = await api("/create", { name, acc_no, password });
+  if (initial_deposit < 500) {
+    showToast("Minimum initial deposit is ₹500.", "error"); return;
+  }
+
+  const data = await api("/create", { name, acc_no, password, initial_deposit });
 
   if (data.ok) {
     document.getElementById("create-name").value = "";
     document.getElementById("create-acc").value = "";
     document.getElementById("create-pass").value = "";
-    showToast("Account created successfully!", "success");
+    document.getElementById("create-deposit").value = "";
+    showToast("Account created successfully! Opening balance: ₹" + initial_deposit.toFixed(2), "success");
     showPage("page-login");
   } else {
     showToast(data.msg, "error");

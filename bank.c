@@ -54,7 +54,7 @@ int account_exists(int acc_no);
 /* ==================== API FUNCTIONS (for web frontend) ==================== */
 
 void api_login(int acc_no, char *password);
-void api_create(char *name, int acc_no, char *password);
+void api_create(char *name, int acc_no, char *password, float initial_deposit);
 void api_deposit(int acc_no, char *password, float amount);
 void api_withdraw(int acc_no, char *password, float amount);
 void api_transfer(int acc_no, char *password, int to_acc, float amount);
@@ -75,8 +75,8 @@ int main(int argc, char *argv[]) {
         if (strcmp(cmd, "login") == 0 && argc == 4) {
             api_login(atoi(argv[2]), argv[3]);
         }
-        else if (strcmp(cmd, "create") == 0 && argc == 5) {
-            api_create(argv[2], atoi(argv[3]), argv[4]);
+        else if (strcmp(cmd, "create") == 0 && argc == 6) {
+            api_create(argv[2], atoi(argv[3]), argv[4], atof(argv[5]));
         }
         else if (strcmp(cmd, "deposit") == 0 && argc == 5) {
             api_deposit(atoi(argv[2]), argv[3], atof(argv[4]));
@@ -199,9 +199,13 @@ void api_login(int acc_no, char *password) {
     }
 }
 
-void api_create(char *name, int acc_no, char *password) {
+void api_create(char *name, int acc_no, char *password, float initial_deposit) {
     if (account_exists(acc_no)) {
         printf("{\"ok\":false,\"msg\":\"Account number already exists\"}\n");
+        return;
+    }
+    if (initial_deposit < 500) {
+        printf("{\"ok\":false,\"msg\":\"Minimum initial deposit of Rs.500 is required to open an account\"}\n");
         return;
     }
     FILE *file = fopen(ACCOUNT_FILE, "ab+");
@@ -210,10 +214,10 @@ void api_create(char *name, int acc_no, char *password) {
     strncpy(acc.name, name, 49); acc.name[49] = '\0';
     acc.acc_no = acc_no;
     strncpy(acc.password, password, 19); acc.password[19] = '\0';
-    acc.balance = 0;
+    acc.balance = initial_deposit;
     fwrite(&acc, sizeof(acc), 1, file);
     fclose(file);
-    printf("{\"ok\":true,\"msg\":\"Account created successfully\"}\n");
+    printf("{\"ok\":true,\"msg\":\"Account created successfully\",\"balance\":%.2f}\n", initial_deposit);
 }
 
 void api_deposit(int acc_no, char *password, float amount) {
@@ -435,10 +439,18 @@ void create_account() {
     }
     printf("Enter password: ");
     scanf("%s", acc.password);
-    acc.balance = 0;
+
+    printf("Enter initial deposit amount (minimum Rs.500): ");
+    scanf("%f", &acc.balance);
+    if (acc.balance < 500) {
+        printf("\nMinimum initial deposit of Rs.500 is required!\n");
+        fclose(file);
+        return;
+    }
+
     fwrite(&acc, sizeof(acc), 1, file);
     fclose(file);
-    printf("\nAccount created successfully!\n");
+    printf("\nAccount created successfully! Opening balance: Rs.%.2f\n", acc.balance);
 }
 
 int login(int *acc_no) {

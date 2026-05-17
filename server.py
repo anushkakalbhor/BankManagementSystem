@@ -123,7 +123,7 @@ class BankHandler(BaseHTTPRequestHandler):
 
         elif path == "/api/create":
             name = data.get("name", "").replace(" ", "_")  # spaces not allowed in args
-            return ["create", name, str(data.get("acc_no", "")), data.get("password", "")]
+            return ["create", name, str(data.get("acc_no", "")), data.get("password", ""), str(data.get("initial_deposit", 0))]
 
         elif path == "/api/deposit":
             return ["deposit", str(data.get("acc_no", "")),

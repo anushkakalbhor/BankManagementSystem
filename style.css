@@ -129,7 +129,7 @@ html, body {
 }
 
 .login-brand::after {
-  content: 'NovaBanc';
+  content: 'EduBank';
   position: absolute;
   bottom: 40px;
   right: -20px;
