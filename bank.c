@@ -1,22 +1,6 @@
 /*
  * bank.c — Bank Management System
- * 
- * Can be run in two modes:
- *   1. Interactive terminal mode:   ./bank
- *   2. API mode (for web frontend): ./bank <command> [args...]
- *
- * API Commands:
- *   ./bank login <acc_no> <password>
- *   ./bank create <name> <acc_no> <password>
- *   ./bank deposit <acc_no> <password> <amount>
- *   ./bank withdraw <acc_no> <password> <amount>
- *   ./bank transfer <acc_no> <password> <to_acc_no> <amount>
- *   ./bank balance <acc_no> <password>
- *   ./bank history <acc_no> <password>
- *   ./bank update <acc_no> <password> <new_name> <new_password>
- *   ./bank delete <acc_no> <password>
- *   ./bank admin <admin_password>
- *
+
  * All API responses are JSON for the web frontend.
  */
 
@@ -53,7 +37,7 @@ int account_exists(int acc_no);
 
 /* ==================== API FUNCTIONS (for web frontend) ==================== */
 
-void api_login(int acc_no, char *password);
+void api_login(int acc_no, char *password); 
 void api_create(char *name, int acc_no, char *password, float initial_deposit);
 void api_deposit(int acc_no, char *password, float amount);
 void api_withdraw(int acc_no, char *password, float amount);
